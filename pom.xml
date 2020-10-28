@@ -12,6 +12,8 @@
 
     </properties>
     <modules>
+        <module>concurrent</module>
+        <module>custom-aqs</module>
     </modules>
     <dependencyManagement>
         <dependencies>
