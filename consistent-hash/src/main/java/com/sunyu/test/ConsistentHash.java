@@ -13,24 +13,15 @@ import java.util.TreeMap;
  * @author yu 2020/10/28.
  */
 public class ConsistentHash<T> {
-
-    /**
-     * 所用的hash函数
-     */
-    private final HashFunction hashFunction;
-
-    /**
-     * server虚拟节点倍数(100左右比较合理)
-     */
+    // Hash函数接口
+    private final IHashService iHashService;
+    // 每个机器节点关联的虚拟节点数量
     private final int numberOfReplicas;
+    // 环形虚拟节点
+    private final SortedMap<Long, T> circle = new TreeMap<>();
 
-    /**
-     * server节点分布圆
-     */
-    private final SortedMap<Integer, T> circle = new TreeMap<>();
-
-    public ConsistentHash(HashFunction hashFunction, int numberOfReplicas, Collection<T> nodes){
-        this.hashFunction = hashFunction;
+    public ConsistentHash(IHashService iHashService, int numberOfReplicas, Collection<T> nodes) {
+        this.iHashService = iHashService;
         this.numberOfReplicas = numberOfReplicas;
         for (T node : nodes) {
             add(node);
@@ -38,79 +29,39 @@ public class ConsistentHash<T> {
     }
 
     /**
-     * 初始化一致性hash算法
+     * 增加真实机器节点
      *
-     * @param hashFunction
-     * @param numberOfReplicas
-     */
-    public ConsistentHash(HashFunction hashFunction, int numberOfReplicas) {
-        this.hashFunction = hashFunction;
-        this.numberOfReplicas = numberOfReplicas;
-    }
-
-    public ConsistentHash(int numberOfReplicas) {
-        this.hashFunction = Hashing.md5();
-        this.numberOfReplicas = numberOfReplicas;
-    }
-
-    /**
-     * 加入server节点
-     *
-     * @param node
+     * @param node T
      */
     public void add(T node) {
-        for (int i = 0; i < numberOfReplicas; i++) {
-            int hash = hashFunction.hashString(node.toString() + i, Charsets.UTF_8).asInt();
-//            System.out.println("节点的hash值："+hash);
-            circle.put(hash, node);
+        for (int i = 0; i < this.numberOfReplicas; i++) {
+            circle.put(this.iHashService.hash(node.toString() + i), node);
         }
     }
 
     /**
-     * 移除server节点
+     * 删除真实机器节点
      *
-     * @param node
+     * @param node T
      */
     public void remove(T node) {
-        for (int i = 0; i < numberOfReplicas; i++) {
-            circle.remove(hashFunction.hashString(node.toString() + i, Charsets.UTF_8).asInt());
+        for (int i = 0; i < this.numberOfReplicas; i++) {
+            circle.remove(this.iHashService.hash(node.toString() + i));
         }
     }
 
-    /**
-     * 获取client对应server节点
-     *
-     * @param key
-     * @return
-     */
-    public T get(Object key) {
+    public T get(String key) {
         if (circle.isEmpty()) {
             return null;
         }
 
-        //生成client对应的hash值
-        int hash = hashFunction.hashString(key.toString(), Charsets.UTF_8).asInt();
+        long hash = iHashService.hash(key);
 
-        //如果没有对应此hash的server节点，获取大于等于此hash后面的server节点；如果还没有，则获取server节点分布圆的第一个节点
+        // 沿环的顺时针找到一个虚拟节点
         if (!circle.containsKey(hash)) {
-            SortedMap<Integer, T> tailMap = circle.tailMap(hash);
+            SortedMap<Long, T> tailMap = circle.tailMap(hash);
             hash = tailMap.isEmpty() ? circle.firstKey() : tailMap.firstKey();
         }
         return circle.get(hash);
-    }
-
-    public static void main(String[] args) {
-
-        ArrayList<String> nodeList = new ArrayList<>();
-        nodeList.add("www.google.com.hk");
-        nodeList.add("www.apple.com.cn");
-        nodeList.add("www.twitter.com");
-        nodeList.add("www.weibo.com");
-
-        HashFunction hf = Hashing.md5();
-
-        ConsistentHash<String> consistentHash = new ConsistentHash<>(hf, 100, nodeList);
-        //根据一致性hash算法获取客户端对应的服务器节点
-        System.out.println(consistentHash.get("1111"));
     }
 }
