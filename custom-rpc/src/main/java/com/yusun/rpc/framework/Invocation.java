@@ -1,4 +1,4 @@
-package com.yusun.rpc.entity;
+package com.yusun.rpc.framework;
 
 /**
  * @author yu 2020/11/8.

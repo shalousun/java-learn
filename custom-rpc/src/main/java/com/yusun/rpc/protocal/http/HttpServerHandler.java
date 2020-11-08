@@ -1,7 +1,7 @@
 package com.yusun.rpc.protocal.http;
 
 import com.alibaba.fastjson.JSONObject;
-import com.yusun.rpc.entity.Invocation;
+import com.yusun.rpc.framework.Invocation;
 import com.yusun.rpc.register.LocalRegister;
 import org.apache.commons.io.IOUtils;
 

@@ -1,4 +1,4 @@
-package com.yusun.rpc.entity;
+package com.yusun.rpc.framework;
 
 import java.util.List;
 import java.util.Random;

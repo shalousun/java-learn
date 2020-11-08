@@ -1,6 +1,7 @@
-package com.yusun.rpc.entity;
+package com.yusun.rpc.framework;
 
 import com.yusun.rpc.consumer.HttpClient;
+import com.yusun.rpc.protocal.http.HttpProtocol;
 import com.yusun.rpc.register.RemoteMapRegister;
 
 import java.lang.reflect.Proxy;
@@ -14,7 +15,8 @@ public class ProxyFactory<T> {
     public static <T> T getProxy(final Class interfaceClass) {
         return (T) Proxy.newProxyInstance(interfaceClass.getClassLoader(), new Class[]{interfaceClass},
                 (proxy, method, args) -> {
-                    HttpClient httpClient = new HttpClient();
+                    //使用http协议实现
+                    Protocol protocol = ProtocolFactory.getProtocol();
                     Invocation invocation = Invocation.builder().setInterfaceName(interfaceClass.getName())
                             .setMethodName(method.getName()).setParamTypes(method.getParameterTypes())
                             .setParams(args);
@@ -23,7 +25,7 @@ public class ProxyFactory<T> {
                     // 随机负载获取一台服务器
                     URL url = LoadBalance.random(urlList);
                     System.out.println("server url:"+url.toString());
-                    String result = httpClient.send(url, invocation);
+                    String result = protocol.send(url, invocation);
                     return result;
                 });
     }

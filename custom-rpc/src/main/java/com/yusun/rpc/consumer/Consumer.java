@@ -1,10 +1,8 @@
 package com.yusun.rpc.consumer;
 
-import com.yusun.rpc.entity.Invocation;
-import com.yusun.rpc.entity.ProxyFactory;
+import com.yusun.rpc.framework.Invocation;
+import com.yusun.rpc.framework.ProxyFactory;
 import com.yusun.rpc.provider.api.HelloService;
-
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author yu 2020/11/8.

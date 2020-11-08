@@ -1,6 +1,6 @@
 package com.yusun.rpc.register;
 
-import com.yusun.rpc.entity.URL;
+import com.yusun.rpc.framework.URL;
 
 import java.io.*;
 import java.util.*;
