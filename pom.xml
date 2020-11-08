@@ -15,6 +15,7 @@
         <module>concurrent</module>
         <module>custom-aqs</module>
         <module>consistent-hash</module>
+        <module>custom-rpc</module>
     </modules>
     <dependencyManagement>
         <dependencies>
