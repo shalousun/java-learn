@@ -14,8 +14,8 @@ public interface Protocol {
     /**
      * 发送远程请求
      * @param url
-     * @param invocation 发送数据
+     * @param rpcRequest 发送数据
      * @return
      */
-    String send(URL url,Invocation invocation);
+    String send(URL url, RpcRequest rpcRequest);
 }

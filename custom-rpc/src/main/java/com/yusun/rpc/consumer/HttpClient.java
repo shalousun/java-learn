@@ -2,7 +2,7 @@ package com.yusun.rpc.consumer;
 
 import com.alibaba.fastjson.JSONObject;
 import com.power.common.util.OkHttp3Util;
-import com.yusun.rpc.framework.Invocation;
+import com.yusun.rpc.framework.RpcRequest;
 import com.yusun.rpc.framework.URL;
 
 /**
@@ -10,13 +10,13 @@ import com.yusun.rpc.framework.URL;
  */
 public class HttpClient {
 
-    public String send(String hostName, Integer port, Invocation invocation) {
-        String result = OkHttp3Util.syncPostJson("http://" + hostName + ":" + port, JSONObject.toJSONString(invocation));
+    public String send(String hostName, Integer port, RpcRequest rpcRequest) {
+        String result = OkHttp3Util.syncPostJson("http://" + hostName + ":" + port, JSONObject.toJSONString(rpcRequest));
         return result;
     }
 
-    public String send(URL url, Invocation invocation) {
-        String result = OkHttp3Util.syncPostJson("http://" + url.getHostname() + ":" + url.getPort(), JSONObject.toJSONString(invocation));
+    public String send(URL url, RpcRequest rpcRequest) {
+        String result = OkHttp3Util.syncPostJson("http://" + url.getHostname() + ":" + url.getPort(), JSONObject.toJSONString(rpcRequest));
         return result;
     }
 }

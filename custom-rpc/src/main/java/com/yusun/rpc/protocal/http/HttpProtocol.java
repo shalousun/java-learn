@@ -2,7 +2,7 @@ package com.yusun.rpc.protocal.http;
 
 
 import com.yusun.rpc.consumer.HttpClient;
-import com.yusun.rpc.framework.Invocation;
+import com.yusun.rpc.framework.RpcRequest;
 import com.yusun.rpc.framework.Protocol;
 import com.yusun.rpc.framework.URL;
 
@@ -18,8 +18,8 @@ public class HttpProtocol implements Protocol {
     }
 
     @Override
-    public String send(URL url, Invocation invocation) {
+    public String send(URL url, RpcRequest rpcRequest) {
         HttpClient httpClient = new HttpClient();
-        return httpClient.send(url,invocation);
+        return httpClient.send(url, rpcRequest);
     }
 }

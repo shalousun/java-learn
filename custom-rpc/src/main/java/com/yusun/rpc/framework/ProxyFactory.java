@@ -1,7 +1,6 @@
 package com.yusun.rpc.framework;
 
-import com.yusun.rpc.consumer.HttpClient;
-import com.yusun.rpc.protocal.http.HttpProtocol;
+import com.power.common.util.UUIDUtil;
 import com.yusun.rpc.register.RemoteMapRegister;
 
 import java.lang.reflect.Proxy;
@@ -17,15 +16,15 @@ public class ProxyFactory<T> {
                 (proxy, method, args) -> {
                     //使用http协议实现
                     Protocol protocol = ProtocolFactory.getProtocol();
-                    Invocation invocation = Invocation.builder().setInterfaceName(interfaceClass.getName())
+                    RpcRequest rpcRequest = RpcRequest.builder().setInterfaceName(interfaceClass.getName())
                             .setMethodName(method.getName()).setParamTypes(method.getParameterTypes())
-                            .setParams(args);
+                            .setParams(args).setId(UUIDUtil.getUuid32());
                     // 从注册中心获取服务地址
                     List<URL> urlList = RemoteMapRegister.get(interfaceClass.getName());
                     // 随机负载获取一台服务器
                     URL url = LoadBalance.random(urlList);
                     System.out.println("server url:"+url.toString());
-                    String result = protocol.send(url, invocation);
+                    String result = protocol.send(url, rpcRequest);
                     return result;
                 });
     }

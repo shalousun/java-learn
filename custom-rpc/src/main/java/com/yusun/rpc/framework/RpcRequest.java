@@ -3,8 +3,9 @@ package com.yusun.rpc.framework;
 /**
  * @author yu 2020/11/8.
  */
-public class Invocation {
+public class RpcRequest {
 
+    private String id;
     /**
      * rpc接口
      */
@@ -25,15 +26,24 @@ public class Invocation {
      */
     private Object[] params;
 
-    public static Invocation builder(){
-        return new Invocation();
+    public static RpcRequest builder(){
+        return new RpcRequest();
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public RpcRequest setId(String id) {
+        this.id = id;
+        return this;
     }
 
     public String getInterfaceName() {
         return interfaceName;
     }
 
-    public Invocation setInterfaceName(String interfaceName) {
+    public RpcRequest setInterfaceName(String interfaceName) {
         this.interfaceName = interfaceName;
         return this;
     }
@@ -42,7 +52,7 @@ public class Invocation {
         return methodName;
     }
 
-    public Invocation setMethodName(String methodName) {
+    public RpcRequest setMethodName(String methodName) {
         this.methodName = methodName;
         return this;
     }
@@ -51,7 +61,7 @@ public class Invocation {
         return paramTypes;
     }
 
-    public Invocation setParamTypes(Class[] paramTypes) {
+    public RpcRequest setParamTypes(Class[] paramTypes) {
         this.paramTypes = paramTypes;
         return this;
     }
@@ -60,7 +70,7 @@ public class Invocation {
         return params;
     }
 
-    public Invocation setParams(Object[] params) {
+    public RpcRequest setParams(Object[] params) {
         this.params = params;
         return this;
     }

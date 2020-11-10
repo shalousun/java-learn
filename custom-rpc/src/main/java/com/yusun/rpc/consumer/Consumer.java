@@ -1,6 +1,6 @@
 package com.yusun.rpc.consumer;
 
-import com.yusun.rpc.framework.Invocation;
+import com.yusun.rpc.framework.RpcRequest;
 import com.yusun.rpc.framework.ProxyFactory;
 import com.yusun.rpc.provider.api.HelloService;
 
@@ -27,10 +27,10 @@ public class Consumer {
      */
     private static void noProxy(){
         HttpClient client = new HttpClient();
-        Invocation invocation = Invocation.builder().setInterfaceName(HelloService.class.getName())
+        RpcRequest rpcRequest = RpcRequest.builder().setInterfaceName(HelloService.class.getName())
                 .setMethodName("sayHello").setParamTypes(new Class[]{String.class})
                 .setParams(new Object[]{"sunyu"});
-        String result = client.send("localhost",8080,invocation);
+        String result = client.send("localhost",8080, rpcRequest);
         System.out.println(result);
     }
 }
