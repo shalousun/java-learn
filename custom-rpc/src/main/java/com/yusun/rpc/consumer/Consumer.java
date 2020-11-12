@@ -10,6 +10,7 @@ import com.yusun.rpc.provider.api.HelloService;
 public class Consumer {
 
     public static void main(String[] args) {
+        System.setProperty("protocolName","dubbo");
         useProxy();
     }
 

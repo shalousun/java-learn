@@ -31,6 +31,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        System.out.println("收到客服端数据");
         RpcRequest rpcRequest = JSONObject.parseObject(msg.toString(), RpcRequest.class);
         if ("heartBeat".equals(rpcRequest.getMethodName())) {
             System.out.println("客户端心跳信息..." + ctx.channel().remoteAddress());

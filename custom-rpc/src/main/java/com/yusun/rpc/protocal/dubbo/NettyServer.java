@@ -7,6 +7,11 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
+import io.netty.handler.codec.LengthFieldPrepender;
+import io.netty.handler.codec.serialization.ClassResolvers;
+import io.netty.handler.codec.serialization.ObjectDecoder;
+import io.netty.handler.codec.serialization.ObjectEncoder;
 import io.netty.handler.timeout.IdleStateHandler;
 
 
@@ -27,9 +32,13 @@ public class NettyServer {
                                 @Override
                                 protected void initChannel(SocketChannel ch) throws Exception {
                                     ChannelPipeline pipeline = ch.pipeline();
-                                    pipeline.addLast(new IdleStateHandler(0, 0, 60));
-                                    pipeline.addLast(new JSONEncoder());
-                                    pipeline.addLast(new JSONDecoder());
+                                    pipeline.addLast(new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 0, 4, 0, 4));
+                                    //自定义协议编码器
+                                    pipeline.addLast(new LengthFieldPrepender(4));
+                                    //对象参数类型编码器
+                                    pipeline.addLast("encoder",new ObjectEncoder());
+                                    //对象参数类型解码器
+                                    pipeline.addLast("decoder",new ObjectDecoder(Integer.MAX_VALUE, ClassResolvers.cacheDisabled(null)));
                                     pipeline.addLast(new NettyServerHandler());
                                 }
                             })
