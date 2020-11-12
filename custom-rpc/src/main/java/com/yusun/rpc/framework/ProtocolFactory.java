@@ -13,7 +13,7 @@ public class ProtocolFactory {
 
     public static Protocol getProtocol() {
         String protocol = System.getProperty("protocolName");
-        System.out.println("start protocol is:"+protocol);
+        System.out.println("Used protocol is:"+protocol);
         if (Objects.isNull(protocol)) {
             protocol = "http";
         }

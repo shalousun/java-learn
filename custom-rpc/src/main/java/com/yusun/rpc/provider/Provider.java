@@ -3,6 +3,7 @@ package com.yusun.rpc.provider;
 import com.yusun.rpc.framework.Protocol;
 import com.yusun.rpc.framework.ProtocolFactory;
 import com.yusun.rpc.framework.URL;
+
 import com.yusun.rpc.protocal.http.HttpServer;
 import com.yusun.rpc.provider.api.HelloService;
 import com.yusun.rpc.provider.impl.HelloServiceImpl;
@@ -24,7 +25,9 @@ public class Provider {
      */
     public static void protocol() {
         URL url = URL.builder().setHostname("localhost").setPort(8080);
+        //利用文件代替注册中心
         RemoteMapRegister.registry(HelloService.class.getName(), url);
+        //注册服务
         LocalRegister.registry(HelloService.class.getName(), HelloServiceImpl.class);
         Protocol protocol = ProtocolFactory.getProtocol();
         protocol.start(url);

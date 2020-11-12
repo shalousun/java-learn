@@ -16,7 +16,7 @@ public class DubboProtocol implements Protocol {
     }
 
     @Override
-    public String send(URL url, RpcRequest rpcRequest) {
+    public <T> T send(URL url, RpcRequest rpcRequest) {
         NettyClient nettyClient = new NettyClient(url);
         return nettyClient.send(rpcRequest);
     }

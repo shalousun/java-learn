@@ -17,5 +17,5 @@ public interface Protocol {
      * @param rpcRequest 发送数据
      * @return
      */
-    String send(URL url, RpcRequest rpcRequest);
+    <T> T send(URL url, RpcRequest rpcRequest);
 }

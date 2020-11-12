@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * @author yu 2020/11/8.
  */
-public class ProxyFactory<T> {
+public class RpcProxyFactory<T> {
 
     public static <T> T getProxy(final Class interfaceClass) {
         return (T) Proxy.newProxyInstance(interfaceClass.getClassLoader(), new Class[]{interfaceClass},
@@ -23,9 +23,8 @@ public class ProxyFactory<T> {
                     List<URL> urlList = RemoteMapRegister.get(interfaceClass.getName());
                     // 随机负载获取一台服务器
                     URL url = LoadBalance.random(urlList);
-                    System.out.println("server url:"+url.toString());
-                    String result = protocol.send(url, rpcRequest);
-                    return result;
+                    System.out.println("server url:" + url.toString());
+                    return protocol.send(url, rpcRequest);
                 });
     }
 }

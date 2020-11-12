@@ -1,7 +1,8 @@
 package com.yusun.rpc.consumer;
 
+import com.alibaba.fastjson.JSONObject;
+import com.yusun.rpc.framework.RpcProxyFactory;
 import com.yusun.rpc.framework.RpcRequest;
-import com.yusun.rpc.framework.ProxyFactory;
 import com.yusun.rpc.provider.api.HelloService;
 
 /**
@@ -10,28 +11,30 @@ import com.yusun.rpc.provider.api.HelloService;
 public class Consumer {
 
     public static void main(String[] args) {
-        System.setProperty("protocolName","dubbo");
+        System.setProperty("protocolName", "dubbo");
         useProxy();
     }
 
     /**
      * 使用代理
      */
-    private static void useProxy(){
-        HelloService helloService = ProxyFactory.getProxy(HelloService.class);
+    private static void useProxy() {
+        HelloService helloService = RpcProxyFactory.getProxy(HelloService.class);
         String result = helloService.sayHello("yusun7");
-        System.out.println(result);
+        System.out.println(JSONObject.toJSONString(result));
     }
 
     /**
      * 不是用代理
      */
-    private static void noProxy(){
+    private static void noProxy() {
         HttpClient client = new HttpClient();
         RpcRequest rpcRequest = RpcRequest.builder().setInterfaceName(HelloService.class.getName())
                 .setMethodName("sayHello").setParamTypes(new Class[]{String.class})
                 .setParams(new Object[]{"sunyu"});
-        String result = client.send("localhost",8080, rpcRequest);
+        String result = client.send("localhost", 8080, rpcRequest);
         System.out.println(result);
     }
+
+
 }
