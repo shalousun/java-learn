@@ -1,7 +1,9 @@
 package com.yusun.rpc.protocal.dubbo;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.yusun.rpc.framework.RpcRequest;
+import com.yusun.rpc.framework.RpcResponse;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
@@ -12,7 +14,7 @@ import java.util.concurrent.Callable;
  */
 public class NettyClientHandler extends ChannelInboundHandlerAdapter implements Callable {
 
-    private Object response;
+    private RpcResponse response;
 
     private ChannelHandlerContext context;//上下文
 
@@ -26,8 +28,8 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter implements 
 
     @Override
     public synchronized void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        System.out.println("接收到服务端的数据：" + msg);
-        this.response = msg;
+        System.out.println("接收到服务端的数据：" + JSON.toJSONString(msg));
+        this.response = (RpcResponse)msg;
         notify();
     }
 
@@ -49,10 +51,12 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter implements 
     public synchronized Object call() throws Exception {
         String rpcParam = JSONObject.toJSONString(param);
         System.out.println("客服端发送数据：" + rpcParam);
-        context.writeAndFlush(rpcParam);
+        context.writeAndFlush(param);
         // 进行 wait,等待channelRead获取到服务器的结果
         wait();
         // 返回结果
-        return response;
+        Object object = response.getResult();
+        System.out.println(object);
+        return object;
     }
 }

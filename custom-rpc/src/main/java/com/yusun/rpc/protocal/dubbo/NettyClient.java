@@ -1,7 +1,11 @@
 package com.yusun.rpc.protocal.dubbo;
 
 import com.yusun.rpc.framework.RpcRequest;
+import com.yusun.rpc.framework.RpcResponse;
 import com.yusun.rpc.framework.URL;
+import com.yusun.rpc.protocal.dubbo.codec.JSONSerializer;
+import com.yusun.rpc.protocal.dubbo.codec.RpcDecoder;
+import com.yusun.rpc.protocal.dubbo.codec.RpcEncoder;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
@@ -38,8 +42,8 @@ public class NettyClient {
                     @Override
                     protected void initChannel(SocketChannel socketChannel) throws Exception {
                         ChannelPipeline pipeline = socketChannel.pipeline();
-                        pipeline.addLast(new StringDecoder());
-                        pipeline.addLast(new StringEncoder());
+                        pipeline.addLast(new RpcEncoder(RpcRequest.class, new JSONSerializer()));
+//                        pipeline.addLast(new RpcDecoder(RpcResponse.class, new JSONSerializer()));
                         pipeline.addLast(nettyClientHandler);
                     }
                 });

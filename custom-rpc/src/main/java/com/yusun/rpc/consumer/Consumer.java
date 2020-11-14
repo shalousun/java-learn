@@ -1,6 +1,7 @@
 package com.yusun.rpc.consumer;
 
 import com.alibaba.fastjson.JSONObject;
+import com.power.common.model.CommonResult;
 import com.yusun.rpc.framework.RpcProxyFactory;
 import com.yusun.rpc.framework.RpcRequest;
 import com.yusun.rpc.provider.api.HelloService;
@@ -20,7 +21,7 @@ public class Consumer {
      */
     private static void useProxy() {
         HelloService helloService = RpcProxyFactory.getProxy(HelloService.class);
-        String result = helloService.sayHello("yusun7");
+        CommonResult<String> result = helloService.sayHello2("yusun7");
         System.out.println(JSONObject.toJSONString(result));
     }
 

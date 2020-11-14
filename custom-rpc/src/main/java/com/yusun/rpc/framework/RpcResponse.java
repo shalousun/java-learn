@@ -4,23 +4,47 @@ package com.yusun.rpc.framework;
  * @author yu 2020/11/13.
  */
 public class RpcResponse {
+    /**
+     * 响应ID
+     */
     private String requestId;
+    /**
+     * 错误信息
+     */
+    private String error;
+    /**
+     * 返回的结果
+     */
+    private Object result;
 
-    private Object data;
+    public static RpcResponse builder(){
+        return new RpcResponse();
+    }
 
     public String getRequestId() {
         return requestId;
     }
 
-    public void setRequestId(String requestId) {
+    public RpcResponse setRequestId(String requestId) {
         this.requestId = requestId;
+        return this;
     }
 
-    public Object getData() {
-        return data;
+    public String getError() {
+        return error;
     }
 
-    public void setData(Object data) {
-        this.data = data;
+    public RpcResponse setError(String error) {
+        this.error = error;
+        return this;
+    }
+
+    public Object getResult() {
+        return result;
+    }
+
+    public RpcResponse setResult(Object result) {
+        this.result = result;
+        return this;
     }
 }

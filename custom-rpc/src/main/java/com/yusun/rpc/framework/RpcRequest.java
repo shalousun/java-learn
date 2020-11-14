@@ -7,7 +7,10 @@ import java.util.Arrays;
  */
 public class RpcRequest {
 
-    private String id;
+    /**
+     * 请求对象的ID
+     */
+    private String requestId;
     /**
      * rpc接口
      */
@@ -32,12 +35,12 @@ public class RpcRequest {
         return new RpcRequest();
     }
 
-    public String getId() {
-        return id;
+    public String getRequestId() {
+        return requestId;
     }
 
-    public RpcRequest setId(String id) {
-        this.id = id;
+    public RpcRequest setRequestId(String requestId) {
+        this.requestId = requestId;
         return this;
     }
 
@@ -80,8 +83,8 @@ public class RpcRequest {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("{");
-        sb.append("\"id\":\"")
-                .append(id).append('\"');
+        sb.append("\"requestId\":\"")
+                .append(requestId).append('\"');
         sb.append(",\"interfaceName\":\"")
                 .append(interfaceName).append('\"');
         sb.append(",\"methodName\":\"")

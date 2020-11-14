@@ -1,5 +1,10 @@
 package com.yusun.rpc.protocal.dubbo;
 
+import com.yusun.rpc.framework.RpcRequest;
+import com.yusun.rpc.framework.RpcResponse;
+import com.yusun.rpc.protocal.dubbo.codec.JSONSerializer;
+import com.yusun.rpc.protocal.dubbo.codec.RpcDecoder;
+import com.yusun.rpc.protocal.dubbo.codec.RpcEncoder;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -26,8 +31,8 @@ public class NettyServer {
                         @Override
                         protected void initChannel(SocketChannel socketChannel) throws Exception {
                             ChannelPipeline pipeline = socketChannel.pipeline();
-                            pipeline.addLast(new StringEncoder());
-                            pipeline.addLast(new StringDecoder());
+                            pipeline.addLast(new RpcEncoder(RpcResponse.class, new JSONSerializer()));
+                            pipeline.addLast(new RpcDecoder(RpcRequest.class, new JSONSerializer()));
                             pipeline.addLast(new NettyServerHandler());
                         }
                     });

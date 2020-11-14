@@ -1,7 +1,7 @@
 package com.yusun.rpc.protocal.dubbo;
 
-import com.alibaba.fastjson.JSONObject;
 import com.yusun.rpc.framework.RpcRequest;
+import com.yusun.rpc.framework.RpcResponse;
 import com.yusun.rpc.register.LocalRegister;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -31,17 +31,20 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        RpcRequest rpcRequest = JSONObject.parseObject(msg.toString(), RpcRequest.class);
+        RpcRequest rpcRequest = (RpcRequest) msg;
         if ("heartBeat".equals(rpcRequest.getMethodName())) {
             System.out.println("客户端心跳信息..." + ctx.channel().remoteAddress());
         } else {
             String interfaceName = rpcRequest.getInterfaceName();
             System.out.println("RPC客户端请求接口:" + interfaceName + "   方法名:" + rpcRequest.getMethodName());
             try {
+                RpcResponse rpcResponse = RpcResponse.builder();
+                rpcResponse.setRequestId(rpcRequest.getRequestId());
                 Class clas = LocalRegister.get(interfaceName);
                 Method method = clas.getMethod(rpcRequest.getMethodName(), rpcRequest.getParamTypes());
-                String result = (String) method.invoke(clas.newInstance(), rpcRequest.getParams());
-                ctx.writeAndFlush(result);
+                Object result = method.invoke(clas.newInstance(), rpcRequest.getParams());
+                rpcResponse.setResult(result);
+                ctx.writeAndFlush(rpcResponse);
             } catch (NoSuchMethodException | IllegalAccessException
                     | InstantiationException | InvocationTargetException e) {
                 e.printStackTrace();

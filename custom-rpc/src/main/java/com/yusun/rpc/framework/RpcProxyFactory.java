@@ -18,7 +18,7 @@ public class RpcProxyFactory<T> {
                     Protocol protocol = ProtocolFactory.getProtocol();
                     RpcRequest rpcRequest = RpcRequest.builder().setInterfaceName(interfaceClass.getName())
                             .setMethodName(method.getName()).setParamTypes(method.getParameterTypes())
-                            .setParams(args).setId(UUIDUtil.getUuid32());
+                            .setParams(args).setRequestId(UUIDUtil.getUuid32());
                     // 从注册中心获取服务地址
                     List<URL> urlList = RemoteMapRegister.get(interfaceClass.getName());
                     // 随机负载获取一台服务器
