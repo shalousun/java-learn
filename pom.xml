@@ -16,6 +16,7 @@
         <module>custom-aqs</module>
         <module>consistent-hash</module>
         <module>custom-rpc</module>
+        <module>custom-thread-pool</module>
     </modules>
     <dependencyManagement>
         <dependencies>
