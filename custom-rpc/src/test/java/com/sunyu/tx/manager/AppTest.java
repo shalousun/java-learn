@@ -1,4 +1,4 @@
-package com.sunyu.test;
+package com.sunyu.tx.manager;
 
 import static org.junit.Assert.assertTrue;
 

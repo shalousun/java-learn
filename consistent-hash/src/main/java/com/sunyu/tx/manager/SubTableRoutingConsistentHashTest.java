@@ -1,4 +1,4 @@
-package com.sunyu.test;
+package com.sunyu.tx.manager;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;

@@ -1,4 +1,4 @@
-package com.sunyu.test;
+package com.sunyu.tx.manager;
 
 public class Node<T> {
     private String ip;

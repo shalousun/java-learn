@@ -17,6 +17,7 @@
         <module>consistent-hash</module>
         <module>custom-rpc</module>
         <module>custom-thread-pool</module>
+        <module>custom-tx-manager</module>
     </modules>
     <dependencyManagement>
         <dependencies>

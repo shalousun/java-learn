@@ -1,10 +1,5 @@
-package com.sunyu.test;
+package com.sunyu.tx.manager;
 
-import com.google.common.base.Charsets;
-import com.google.common.hash.HashFunction;
-import com.google.common.hash.Hashing;
-
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.SortedMap;
 import java.util.TreeMap;
