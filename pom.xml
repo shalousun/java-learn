@@ -18,6 +18,7 @@
         <module>custom-rpc</module>
         <module>custom-thread-pool</module>
         <module>custom-tx-manager</module>
+        <module>costom-transaction</module>
     </modules>
     <dependencyManagement>
         <dependencies>
