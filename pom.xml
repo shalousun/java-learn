@@ -20,6 +20,7 @@
         <module>custom-tx-manager</module>
         <module>costom-transaction</module>
         <module>transmittable-thread-local-demo</module>
+        <module>jvm</module>
     </modules>
     <dependencyManagement>
         <dependencies>
